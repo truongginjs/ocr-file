@@ -15,13 +15,29 @@ A powerful Python-based document converter application that performs Optical Cha
 
 ## Quick Start
 
-### 1. Build the Docker Image
+### 1. Using Docker Hub (Recommended)
+
+**Pull and run the latest version:**
+```bash
+# Pull the image
+docker pull truongginjs/ocr-file:latest
+
+# Run the container
+docker run -d \
+  --name ocr-converter \
+  -p 8000:8000 \
+  -v $(pwd)/input:/app/input \
+  -v $(pwd)/output:/app/output \
+  truongginjs/ocr-file:latest
+```
+
+### 2. Build from Source
 
 ```bash
 docker build -t document-converter .
 ```
 
-### 2. Using Docker Compose (Recommended)
+### 3. Using Docker Compose (Local Build)
 
 **Start the web service:**
 ```bash
@@ -204,6 +220,33 @@ docker buildx build --platform linux/amd64 -t document-converter:amd64 .
 - Consider using smaller image resolutions for faster processing
 - Use batch processing for multiple files
 
-## License
+## 🐳 Docker Hub
+
+**Pull the latest image:**
+```bash
+docker pull truongginjs/ocr-file:latest
+```
+
+**Available tags:**
+- `truongginjs/ocr-file:latest` - Latest stable version
+- `truongginjs/ocr-file:0.1` - Version 0.1
+
+**Docker Hub Repository:** [truongginjs/ocr-file](https://hub.docker.com/r/truongginjs/ocr-file)
+
+## 👨‍💻 Author
+
+**Truong Nguyen**
+- GitHub: [@truongginjs](https://github.com/truongginjs)
+- Docker Hub: [truongginjs](https://hub.docker.com/u/truongginjs)
+
+## ☕ Support
+
+If this project helped you, consider buying me a coffee!
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-☕-yellow?style=for-the-badge&logo=buy-me-a-coffee)](https://coff.ee/truongginjj)
+
+Your support helps maintain and improve this project! 🙏
+
+## 📄 License
 
 MIT License - Feel free to use and modify as needed.
