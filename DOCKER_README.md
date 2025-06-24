@@ -3,7 +3,7 @@
 A powerful Python-based document converter application that performs Optical Character Recognition (OCR) on PDF documents and images, extracting text content with high accuracy.
 
 
-> **⚠️ Important Notice**: The previous image `truongginjs/ocr-file` is **obsolete**. Please use `truongginjs/ocr-converter` instead. All functionality remains the same - only the image name changed.
+> **⚠️ Important Notice**: The previous image `truongginjs/ocr-file` is **obsolete**. Please use [truongginjs/ocr-converter](https://github.com/truongginjs/ocr-converter) instead. All functionality remains the same - only the image name changed.
 
 
 ## 🚀 Features
