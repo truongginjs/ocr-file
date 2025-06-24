@@ -8,9 +8,10 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-eng \
-    tesseract-ocr-fra \
-    tesseract-ocr-deu \
-    tesseract-ocr-spa \
+    tesseract-ocr-vie \
+    # tesseract-ocr-fra \
+    # tesseract-ocr-deu \
+    # tesseract-ocr-spa \
     poppler-utils \
     libgl1-mesa-glx \
     libglib2.0-0 \

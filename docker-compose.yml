@@ -1,10 +1,10 @@
-version: '3.8'
-
 services:
   document-converter:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    image: truongginjs/ocr-file:latest
+    # Uncomment to build locally instead of using pre-built image
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
@@ -12,18 +12,36 @@ services:
       - ./output:/app/output
     environment:
       - PYTHONUNBUFFERED=1
+      - OCR_LANGUAGE=eng  # Default language, can be overridden
     command: python api.py
     
   # CLI version for batch processing
   document-converter-cli:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    image: truongginjs/ocr-file:latest
+    # Uncomment to build locally instead of using pre-built image
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
     volumes:
       - ./data:/app/input:ro
       - ./output:/app/output
     environment:
       - PYTHONUNBUFFERED=1
+      - OCR_LANGUAGE=eng  # Default language
     # Override command for CLI usage
     entrypoint: ["python", "converter.py"]
     profiles: ["cli"]
+
+  # Vietnamese language specific service
+  document-converter-vie:
+    image: truongginjs/ocr-file:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./data:/app/input:ro
+      - ./output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1
+      - OCR_LANGUAGE=vie  # Vietnamese language
+    command: python api.py
+    profiles: ["vietnamese"]

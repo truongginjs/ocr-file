@@ -1,23 +1,37 @@
 #!/bin/bash
 
-# Build script for ARM64 architecture (Apple Silicon)
+# Build script for ARM64 architecture (Apple Silicon) - OCR File Converter
 
 set -e
 
-echo "Building Document Converter for ARM64..."
-
-# Build the Docker image
-docker build --platform linux/arm64 -t document-converter:latest .
-
-echo "Build completed successfully!"
+echo "🏗️  Building OCR File Converter for ARM64..."
+echo "📦 Features: English + Vietnamese language support"
 echo ""
-echo "Usage examples:"
+
+# Build the Docker image with latest tag
+docker build --platform linux/arm64 -t truongginjs/ocr-file:latest .
+
+echo "✅ Build completed successfully!"
+echo ""
+echo "🔍 Language support check:"
+docker run --rm truongginjs/ocr-file:latest tesseract --list-langs
+echo ""
+echo "🚀 Usage examples:"
+echo ""
 echo "1. Start web service:"
 echo "   docker-compose up document-converter"
 echo ""
-echo "2. Convert files via CLI:"
-echo "   docker-compose run --rm document-converter-cli /app/input -o /app/output -f json"
+echo "2. Convert files via CLI (English):"
+echo "   docker-compose run --rm document-converter-cli /app/input -o /app/output -f json -l eng"
 echo ""
-echo "3. Convert your PDF:"
-echo "   docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \\"
-echo "     document-converter python converter.py /app/input/1.pdf -o /app/output -f txt"
+echo "3. Convert files via CLI (Vietnamese):"
+echo "   docker-compose run --rm document-converter-cli /app/input -o /app/output -f json -l vie"
+echo ""
+echo "4. Convert with multiple languages:"
+echo "   docker run --rm -v \$(pwd)/data:/app/input -v \$(pwd)/output:/app/output \\"
+echo "     truongginjs/ocr-file:latest python converter.py /app/input/1.pdf -o /app/output -l eng,vie"
+echo ""
+echo "🌐 API Documentation: http://localhost:8000/docs (when web service is running)"
+echo ""
+echo "📤 To push to Docker Hub:"
+echo "   docker push truongginjs/ocr-file:latest"

@@ -7,11 +7,13 @@ A powerful Python-based document converter application that performs Optical Cha
 - **Multiple Input Formats**: PDF, JPG, PNG, BMP, TIFF, WEBP
 - **Multiple Output Formats**: Plain text (TXT) or structured JSON
 - **OCR Engines**: Tesseract and EasyOCR support
+- **Multi-language Support**: English and Vietnamese (v0.2+), with easy expansion for more languages
 - **ARM64 Optimized**: Built specifically for Apple Silicon chips
 - **Batch Processing**: Convert multiple files at once
 - **REST API**: Web service for programmatic access
 - **CLI Interface**: Command-line tool for batch operations
 - **Image Preprocessing**: Automatic image enhancement for better OCR accuracy
+- **Docker Ready**: Pre-built images available on Docker Hub
 
 ## Quick Start
 
@@ -19,8 +21,11 @@ A powerful Python-based document converter application that performs Optical Cha
 
 **Pull and run the latest version:**
 ```bash
-# Pull the image
+# Pull the latest image (includes Vietnamese support)
 docker pull truongginjs/ocr-file:latest
+
+# Or pull a specific version
+docker pull truongginjs/ocr-file:0.2
 
 # Run the container
 docker run -d \
@@ -28,8 +33,12 @@ docker run -d \
   -p 8000:8000 \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest
+  truongginjs/ocr-file:0.2
 ```
+
+**Version History:**
+- `0.2` - Added Vietnamese language support
+- `latest` - Always points to the most recent stable version
 
 ### 2. Build from Source
 
@@ -53,19 +62,27 @@ docker-compose run --rm document-converter-cli /app/input -o /app/output -f json
 
 **Convert files via CLI:**
 ```bash
-# Convert single file
+# Convert single file (default English)
 docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  document-converter python converter.py /app/input/1.pdf -o /app/output -f txt
+  truongginjs/ocr-file:0.2 python converter.py /app/input/1.pdf -o /app/output -f txt
+
+# Convert with Vietnamese language support
+docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
+  truongginjs/ocr-file:0.2 python converter.py /app/input/1.pdf -o /app/output -f txt -l vie
+
+# Convert with multiple languages
+docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
+  truongginjs/ocr-file:0.2 python converter.py /app/input/1.pdf -o /app/output -f json -l eng,vie
 
 # Convert entire directory
 docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  document-converter python converter.py /app/input -o /app/output -f json
+  truongginjs/ocr-file:0.2 python converter.py /app/input -o /app/output -f json
 ```
 
 **Run web service:**
 ```bash
 docker run --rm -p 8000:8000 -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  document-converter python api.py
+  truongginjs/ocr-file:0.2 python api.py
 ```
 
 ## Usage Examples
@@ -73,17 +90,21 @@ docker run --rm -p 8000:8000 -v $(pwd)/data:/app/input -v $(pwd)/output:/app/out
 ### CLI Usage
 
 ```bash
-# Basic conversion
+# Basic conversion (English default)
 python converter.py input.pdf
 
 # Specify output format and directory
 python converter.py input.pdf -o ./output -f json
 
+# Use specific language
+python converter.py document.pdf -l vie  # Vietnamese
+python converter.py document.pdf -l eng,vie  # English + Vietnamese
+
 # Use EasyOCR engine
 python converter.py image.jpg -e easyocr -f txt
 
-# Batch convert directory
-python converter.py ./images/ -o ./output -f json
+# Batch convert directory with language specification
+python converter.py ./images/ -o ./output -f json -l eng,vie
 
 # Exclude metadata
 python converter.py input.pdf --no-metadata
@@ -154,19 +175,118 @@ Structured output including:
 - **PDF**: .pdf
 - **Images**: .jpg, .jpeg, .png, .bmp, .tiff, .webp
 
+## Language Support 🌍
+
+### Currently Supported Languages
+
+The OCR File Converter currently supports the following languages:
+
+| Language | Code | Tesseract Package | Status |
+|----------|------|------------------|---------|
+| English | eng | tesseract-ocr-eng | ✅ Active |
+| Vietnamese | vie | tesseract-ocr-vie | ✅ Active |
+| French | fra | tesseract-ocr-fra | 🔧 Available (commented) |
+| German | deu | tesseract-ocr-deu | 🔧 Available (commented) |
+| Spanish | spa | tesseract-ocr-spa | 🔧 Available (commented) |
+
+### Adding More Languages
+
+To add support for additional languages, follow these steps:
+
+#### 1. Check Available Languages
+First, check what languages are available for Tesseract:
+```bash
+# List all available Tesseract language packages
+apt-cache search tesseract-ocr-
+
+# Common languages include:
+# tesseract-ocr-fra (French)
+# tesseract-ocr-deu (German)
+# tesseract-ocr-spa (Spanish)
+# tesseract-ocr-ita (Italian)
+# tesseract-ocr-jpn (Japanese)
+# tesseract-ocr-chi-sim (Chinese Simplified)
+# tesseract-ocr-chi-tra (Chinese Traditional)
+# tesseract-ocr-kor (Korean)
+# tesseract-ocr-ara (Arabic)
+# tesseract-ocr-rus (Russian)
+```
+
+#### 2. Update the Dockerfile
+Edit the `Dockerfile` and uncomment or add the desired language packages:
+
+```dockerfile
+# Install system dependencies for OCR and PDF processing
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-vie \
+    tesseract-ocr-fra \    # Uncomment for French
+    tesseract-ocr-deu \    # Uncomment for German
+    tesseract-ocr-spa \    # Uncomment for Spanish
+    # tesseract-ocr-ita \  # Add for Italian
+    # tesseract-ocr-jpn \  # Add for Japanese
+    poppler-utils \
+    # ... rest of dependencies
+```
+
+#### 3. Rebuild the Docker Image
+```bash
+# Build with a new version tag
+docker build -t truongginjs/ocr-file:0.3 .
+
+# Or build locally
+docker build -t document-converter .
+```
+
+#### 4. Using Multiple Languages
+When using the OCR converter, you can specify language codes:
+
+```bash
+# Single language
+python converter.py document.pdf -l eng
+
+# Multiple languages (comma-separated)
+python converter.py document.pdf -l eng,vie,fra
+
+# Via Docker
+docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
+  truongginjs/ocr-file:0.2 python converter.py /app/input/document.pdf -l eng,vie
+```
+
+### Language Code Reference
+
+For a complete list of language codes, visit: [Tesseract Language Data](https://github.com/tesseract-ocr/tessdata)
+
+Common language codes:
+- `eng` - English
+- `vie` - Vietnamese  
+- `fra` - French
+- `deu` - German
+- `spa` - Spanish
+- `ita` - Italian
+- `jpn` - Japanese
+- `chi_sim` - Chinese (Simplified)
+- `chi_tra` - Chinese (Traditional)
+- `kor` - Korean
+- `ara` - Arabic
+- `rus` - Russian
+
 ## OCR Engines
 
 ### Tesseract
 - Fast and reliable
 - Good for clean, high-quality documents
 - Provides confidence scores
-- Multiple language support
+- Supports 100+ languages
+- Currently configured with English and Vietnamese
 
 ### EasyOCR
 - Better for complex layouts
 - Handles skewed text well
 - Good for handwritten text
 - Slower but more accurate for difficult images
+- Supports 80+ languages out of the box
 
 ## Architecture Notes
 
@@ -250,3 +370,39 @@ Your support helps maintain and improve this project! 🙏
 ## 📄 License
 
 MIT License - Feel free to use and modify as needed.
+
+## Changelog 📝
+
+### Version 0.2 (Current)
+- ✅ Added Vietnamese language support (`tesseract-ocr-vie`)
+- ✅ Updated documentation with comprehensive language support guide
+- ✅ Added instructions for adding more languages
+- ✅ Improved Docker Hub integration
+- 🆕 Available on Docker Hub as `truongginjs/ocr-file:0.2`
+
+### Version 0.1
+- 🎉 Initial release
+- ✅ English language support
+- ✅ Multiple input formats (PDF, images)
+- ✅ Multiple output formats (TXT, JSON)
+- ✅ Tesseract and EasyOCR engines
+- ✅ ARM64 optimization
+- ✅ REST API and CLI interfaces
+
+## Contributing 🤝
+
+We welcome contributions! Here are some ways you can help:
+
+1. **Add Language Support**: Help us add more languages by updating the Dockerfile
+2. **Improve OCR Accuracy**: Contribute to image preprocessing algorithms
+3. **Add Features**: API enhancements, new output formats, etc.
+4. **Documentation**: Help improve our documentation and examples
+5. **Testing**: Test with different document types and languages
+
+### Pull Request Guidelines
+- Test your changes thoroughly
+- Update documentation if needed
+- Add appropriate language packages to Dockerfile
+- Follow the existing code style
+
+## Development
