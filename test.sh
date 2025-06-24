@@ -11,11 +11,11 @@ echo ""
 mkdir -p output
 
 echo "📦 Building Docker image..."
-docker build -t truongginjs/ocr-file:latest .
+docker build -t truongginjs/ocr-converter:latest .
 
 echo ""
 echo "🔍 Checking language support..."
-docker run --rm truongginjs/ocr-file:latest tesseract --list-langs
+docker run --rm truongginjs/ocr-converter:latest tesseract --list-langs
 
 echo ""
 echo "🔄 Testing PDF conversion..."
@@ -25,7 +25,7 @@ echo "Test 1: Converting PDF to text format (English)..."
 docker run --rm \
   -v $(pwd)/data:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest \
+  truongginjs/ocr-converter:latest \
   python converter.py /app/input/1.pdf -o /app/output -f txt -l eng
 
 # Test 2: Convert PDF to JSON with Vietnamese
@@ -34,7 +34,7 @@ echo "Test 2: Converting PDF to JSON with Vietnamese language..."
 docker run --rm \
   -v $(pwd)/data:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest \
+  truongginjs/ocr-converter:latest \
   python converter.py /app/input/1.pdf -o /app/output -f json -l vie
 
 # Test 3: Convert PDF with multiple languages
@@ -43,7 +43,7 @@ echo "Test 3: Converting PDF with multiple languages (English + Vietnamese)..."
 docker run --rm \
   -v $(pwd)/data:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest \
+  truongginjs/ocr-converter:latest \
   python converter.py /app/input/1.pdf -o /app/output -f json -l eng,vie
 
 echo ""

@@ -22,10 +22,10 @@ A powerful Python-based document converter application that performs Optical Cha
 **Pull and run the latest version:**
 ```bash
 # Pull the latest image (includes Vietnamese support)
-docker pull truongginjs/ocr-file:latest
+docker pull truongginjs/ocr-converter:latest
 
 # Or pull a specific version
-docker pull truongginjs/ocr-file:0.2
+docker pull truongginjs/ocr-converter:0.2
 
 # Run the container
 docker run -d \
@@ -33,7 +33,7 @@ docker run -d \
   -p 8000:8000 \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:0.2
+  truongginjs/ocr-converter:0.2
 ```
 
 **Version History:**
@@ -64,25 +64,25 @@ docker-compose run --rm document-converter-cli /app/input -o /app/output -f json
 ```bash
 # Convert single file (default English)
 docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:0.2 python converter.py /app/input/1.pdf -o /app/output -f txt
+  truongginjs/ocr-converter:0.2 python converter.py /app/input/1.pdf -o /app/output -f txt
 
 # Convert with Vietnamese language support
 docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:0.2 python converter.py /app/input/1.pdf -o /app/output -f txt -l vie
+  truongginjs/ocr-converter:0.2 python converter.py /app/input/1.pdf -o /app/output -f txt -l vie
 
 # Convert with multiple languages
 docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:0.2 python converter.py /app/input/1.pdf -o /app/output -f json -l eng,vie
+  truongginjs/ocr-converter:0.2 python converter.py /app/input/1.pdf -o /app/output -f json -l eng,vie
 
 # Convert entire directory
 docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:0.2 python converter.py /app/input -o /app/output -f json
+  truongginjs/ocr-converter:0.2 python converter.py /app/input -o /app/output -f json
 ```
 
 **Run web service:**
 ```bash
 docker run --rm -p 8000:8000 -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:0.2 python api.py
+  truongginjs/ocr-converter:0.2 python api.py
 ```
 
 ## Usage Examples
@@ -233,7 +233,7 @@ RUN apt-get update && apt-get install -y \
 #### 3. Rebuild the Docker Image
 ```bash
 # Build with a new version tag
-docker build -t truongginjs/ocr-file:0.3 .
+docker build -t truongginjs/ocr-converter:0.3 .
 
 # Or build locally
 docker build -t document-converter .
@@ -251,7 +251,7 @@ python converter.py document.pdf -l eng,vie,fra
 
 # Via Docker
 docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:0.2 python converter.py /app/input/document.pdf -l eng,vie
+  truongginjs/ocr-converter:0.2 python converter.py /app/input/document.pdf -l eng,vie
 ```
 
 ### Language Code Reference
@@ -344,14 +344,14 @@ docker buildx build --platform linux/amd64 -t document-converter:amd64 .
 
 **Pull the latest image:**
 ```bash
-docker pull truongginjs/ocr-file:latest
+docker pull truongginjs/ocr-converter:latest
 ```
 
 **Available tags:**
-- `truongginjs/ocr-file:latest` - Latest stable version
-- `truongginjs/ocr-file:0.1` - Version 0.1
+- `truongginjs/ocr-converter:latest` - Latest stable version
+- `truongginjs/ocr-converter:0.1` - Version 0.1
 
-**Docker Hub Repository:** [truongginjs/ocr-file](https://hub.docker.com/r/truongginjs/ocr-file)
+**Docker Hub Repository:** [truongginjs/ocr-converter](https://hub.docker.com/r/truongginjs/ocr-converter)
 
 ## 👨‍💻 Author
 
@@ -378,7 +378,7 @@ MIT License - Feel free to use and modify as needed.
 - ✅ Updated documentation with comprehensive language support guide
 - ✅ Added instructions for adding more languages
 - ✅ Improved Docker Hub integration
-- 🆕 Available on Docker Hub as `truongginjs/ocr-file:0.2`
+- 🆕 Available on Docker Hub as `truongginjs/ocr-converter:0.2`
 
 ### Version 0.1
 - 🎉 Initial release

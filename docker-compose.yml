@@ -1,6 +1,6 @@
 services:
   document-converter:
-    image: truongginjs/ocr-file:latest
+    image: truongginjs/ocr-converter:latest
     # Uncomment to build locally instead of using pre-built image
     # build: 
     #   context: .
@@ -17,7 +17,7 @@ services:
     
   # CLI version for batch processing
   document-converter-cli:
-    image: truongginjs/ocr-file:latest
+    image: truongginjs/ocr-converter:latest
     # Uncomment to build locally instead of using pre-built image
     # build: 
     #   context: .
@@ -34,7 +34,7 @@ services:
 
   # Vietnamese language specific service
   document-converter-vie:
-    image: truongginjs/ocr-file:latest
+    image: truongginjs/ocr-converter:latest
     ports:
       - "8001:8000"
     volumes:

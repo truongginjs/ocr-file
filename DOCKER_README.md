@@ -1,4 +1,4 @@
-# OCR File Converter
+# OCR Converter
 
 A powerful Python-based document converter application that performs Optical Character Recognition (OCR) on PDF documents and images, extracting text content with high accuracy.
 
@@ -33,7 +33,7 @@ A powerful Python-based document converter application that performs Optical Cha
 ### Option 1: One-Click Deploy (Recommended for beginners)
 ```bash
 # Download and run the deployment script
-curl -O https://raw.githubusercontent.com/truongginjs/ocr-file/main/deploy.sh
+curl -O https://raw.githubusercontent.com/truongginjs/ocr-converter/main/deploy.sh
 chmod +x deploy.sh
 ./deploy.sh
 ```
@@ -41,7 +41,7 @@ chmod +x deploy.sh
 ### Option 2: Pull and Run
 ```bash
 # Pull the latest image (with Vietnamese support)
-docker pull truongginjs/ocr-file:latest
+docker pull truongginjs/ocr-converter:latest
 
 # Run the container
 docker run -d \
@@ -49,13 +49,13 @@ docker run -d \
   -p 8000:8000 \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest
+  truongginjs/ocr-converter:latest
 ```
 
 ### Option 3: Using Docker Compose
 ```bash
 # Download docker-compose.yml
-curl -O https://raw.githubusercontent.com/truongginjs/ocr-file/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/truongginjs/ocr-converter/main/docker-compose.yml
 
 # Start English API service
 docker-compose up document-converter
@@ -76,20 +76,20 @@ Once running, the FastAPI service will be available at `http://localhost:8000`
 docker run --rm \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest
+  truongginjs/ocr-converter:latest
 
 # Process with Vietnamese language support
 docker run --rm \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest \
+  truongginjs/ocr-converter:latest \
   python converter.py /app/input -o /app/output -l vie
 
 # Process with multiple languages
 docker run --rm \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest \
+  truongginjs/ocr-converter:latest \
   python converter.py /app/input -o /app/output -l eng,vie
 ```
 
@@ -110,20 +110,20 @@ cp your-document.pdf input/
 docker run --rm \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest
+  truongginjs/ocr-converter:latest
 
 # Run with Vietnamese language
 docker run --rm \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest \
+  truongginjs/ocr-converter:latest \
   python converter.py /app/input/your-document.pdf -o /app/output -l vie -f txt
 
 # Run with both English and Vietnamese
 docker run --rm \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest \
+  truongginjs/ocr-converter:latest \
   python converter.py /app/input/your-document.pdf -o /app/output -l eng,vie -f json
 
 # Check the output directory for extracted text
@@ -133,7 +133,7 @@ ls output/
 ### Example 2: Using the API
 ```bash
 # Start the API server
-docker run -d -p 8000:8000 --name ocr-api truongginjs/ocr-file:latest
+docker run -d -p 8000:8000 --name ocr-api truongginjs/ocr-converter:latest
 
 # Upload and process via API (English default)
 curl -X POST "http://localhost:8000/upload" \
@@ -165,7 +165,7 @@ You can easily add more languages by modifying the Dockerfile:
 - **Spanish** (spa) - Ready to uncomment
 
 ### How to Add More Languages
-1. Check available languages: `docker run --rm truongginjs/ocr-file:latest tesseract --list-langs`
+1. Check available languages: `docker run --rm truongginjs/ocr-converter:latest tesseract --list-langs`
 2. Fork the repository and modify the Dockerfile
 3. Uncomment or add desired language packages:
    ```dockerfile
@@ -181,11 +181,11 @@ You can easily add more languages by modifying the Dockerfile:
 ```bash
 # Single language
 docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest python converter.py /app/input/doc.pdf -l vie
+  truongginjs/ocr-converter:latest python converter.py /app/input/doc.pdf -l vie
 
 # Multiple languages
 docker run --rm -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest python converter.py /app/input/doc.pdf -l eng,vie
+  truongginjs/ocr-converter:latest python converter.py /app/input/doc.pdf -l eng,vie
 ```
 
 ## 🛠️ Configuration
@@ -206,7 +206,7 @@ docker run -d \
   -e OCR_ENGINE=tesseract \
   -v $(pwd)/input:/app/input \
   -v $(pwd)/output:/app/output \
-  truongginjs/ocr-file:latest
+  truongginjs/ocr-converter:latest
 ```
 
 ## 📊 Performance
@@ -262,14 +262,14 @@ This Docker image contains open-source components. Please refer to individual co
 
 ## 🏷️ Tags
 
-- `truongginjs/ocr-file:latest` - Latest stable version with Vietnamese support
-- `truongginjs/ocr-file:0.2` - Version 0.2 with Vietnamese support  
-- `truongginjs/ocr-file:0.1` - Version 0.1 (English only)
+- `truongginjs/ocr-converter:latest` - Latest stable version with Vietnamese support
+- `truongginjs/ocr-converter:0.2` - Version 0.2 with Vietnamese support  
+- `truongginjs/ocr-converter:0.1` - Version 0.1 (English only)
 
 ## 🔗 Links
 
-- **Docker Hub**: [truongginjs/ocr-file](https://hub.docker.com/r/truongginjs/ocr-file)
-- **GitHub Repository**: [truongginjs/ocr-file](https://github.com/truongginjs/ocr-file)
+- **Docker Hub**: [truongginjs/ocr-converter](https://hub.docker.com/r/truongginjs/ocr-converter)
+- **GitHub Repository**: [truongginjs/ocr-converter](https://github.com/truongginjs/ocr-converter)
 - **Architecture**: ARM64
 - **Base Image**: python:3.11-slim
 
@@ -284,10 +284,10 @@ This Docker image contains open-source components. Please refer to individual co
 **1. Language not supported error**
 ```bash
 # Check available languages
-docker run --rm truongginjs/ocr-file:latest tesseract --list-langs
+docker run --rm truongginjs/ocr-converter:latest tesseract --list-langs
 
 # Verify you're using correct language codes
-docker run --rm truongginjs/ocr-file:latest python converter.py /app/input/test.pdf -l eng
+docker run --rm truongginjs/ocr-converter:latest python converter.py /app/input/test.pdf -l eng
 ```
 
 **2. Permission denied on output directory**
@@ -303,7 +303,7 @@ sudo chown -R $USER:$USER output/
 docker logs ocr-converter
 
 # Run in interactive mode to debug
-docker run -it --rm truongginjs/ocr-file:latest /bin/bash
+docker run -it --rm truongginjs/ocr-converter:latest /bin/bash
 ```
 
 **4. API not accessible**
@@ -328,6 +328,6 @@ curl http://localhost:8000/health
 ### Getting Help
 
 1. **Check logs**: `docker logs <container-name>`
-2. **Test languages**: `docker run --rm truongginjs/ocr-file:latest tesseract --list-langs`
+2. **Test languages**: `docker run --rm truongginjs/ocr-converter:latest tesseract --list-langs`
 3. **Validate input**: Ensure PDF files are not corrupted
 4. **API docs**: Visit `http://localhost:8000/docs` when service is running

@@ -21,7 +21,7 @@ echo "📁 Creating directories..."
 mkdir -p data output
 
 echo "📦 Pulling OCR File Converter..."
-docker pull truongginjs/ocr-file:latest
+docker pull truongginjs/ocr-converter:latest
 
 echo "✅ Image pulled successfully!"
 echo ""
@@ -42,10 +42,10 @@ echo "4. 💻 CLI Processing (Vietnamese)"
 echo "   docker-compose --profile cli run --rm document-converter-cli /app/input -o /app/output -f json -l vie"
 echo ""
 echo "5. 🔄 Direct Docker Run (English)"
-echo "   docker run --rm -v \$(pwd)/data:/app/input -v \$(pwd)/output:/app/output truongginjs/ocr-file:latest python converter.py /app/input -o /app/output -l eng"
+echo "   docker run --rm -v \$(pwd)/data:/app/input -v \$(pwd)/output:/app/output truongginjs/ocr-converter:latest python converter.py /app/input -o /app/output -l eng"
 echo ""
 echo "6. 🔄 Direct Docker Run (Vietnamese)"
-echo "   docker run --rm -v \$(pwd)/data:/app/input -v \$(pwd)/output:/app/output truongginjs/ocr-file:latest python converter.py /app/input -o /app/output -l vie"
+echo "   docker run --rm -v \$(pwd)/data:/app/input -v \$(pwd)/output:/app/output truongginjs/ocr-converter:latest python converter.py /app/input -o /app/output -l vie"
 echo ""
 echo "📋 Instructions:"
 echo "• Place your PDF files in the './data' directory"
@@ -90,7 +90,7 @@ case $choice in
         else
             echo "🧪 Testing conversion with sample file..."
             docker run --rm -v $(pwd)/data:/app/input -v $(pwd)/output:/app/output \
-                truongginjs/ocr-file:latest python converter.py /app/input/1.pdf -o /app/output -l eng -f json
+                truongginjs/ocr-converter:latest python converter.py /app/input/1.pdf -o /app/output -l eng -f json
             echo "✅ Test completed! Check the output directory."
         fi
         ;;

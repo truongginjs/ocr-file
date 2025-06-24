@@ -9,12 +9,12 @@ echo "📦 Features: English + Vietnamese language support"
 echo ""
 
 # Build the Docker image with latest tag
-docker build --platform linux/arm64 -t truongginjs/ocr-file:latest .
+docker build --platform linux/arm64 -t truongginjs/ocr-converter:latest .
 
 echo "✅ Build completed successfully!"
 echo ""
 echo "🔍 Language support check:"
-docker run --rm truongginjs/ocr-file:latest tesseract --list-langs
+docker run --rm truongginjs/ocr-converter:latest tesseract --list-langs
 echo ""
 echo "🚀 Usage examples:"
 echo ""
@@ -29,9 +29,9 @@ echo "   docker-compose run --rm document-converter-cli /app/input -o /app/outpu
 echo ""
 echo "4. Convert with multiple languages:"
 echo "   docker run --rm -v \$(pwd)/data:/app/input -v \$(pwd)/output:/app/output \\"
-echo "     truongginjs/ocr-file:latest python converter.py /app/input/1.pdf -o /app/output -l eng,vie"
+echo "     truongginjs/ocr-converter:latest python converter.py /app/input/1.pdf -o /app/output -l eng,vie"
 echo ""
 echo "🌐 API Documentation: http://localhost:8000/docs (when web service is running)"
 echo ""
 echo "📤 To push to Docker Hub:"
-echo "   docker push truongginjs/ocr-file:latest"
+echo "   docker push truongginjs/ocr-converter:latest"
